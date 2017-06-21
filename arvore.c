@@ -2,46 +2,50 @@
 #include <stdlib.h>
 #include "arvore.h"
 
-void inicializa(struct TipoNo * no){
-    no = (struct TipoNo *) malloc(sizeof(TipoNo));
-    no->chave = (char) 1;
-    no->esq = NULL;
-    no->dir = NULL;
+void inicializa(struct TipoNo ** no){
+//    *no = NULL;
+    (*no) = (struct TipoNo *) malloc(sizeof(TipoNo));
+    (*no)->chave = (char) 2;
+    (*no)->esq = NULL;
+    (*no)->dir = NULL;
 
   return;
 }
 
-void insere(char * morse, char letra, int tamMorse, struct TipoNo * no)
+void insere(char * morse, char letra, int tamMorse, TipoNo ** no)
 {
     int cont = 0;
 
     while(morse[cont] != '0'){
         if(no == NULL){
-            no = (struct TipoNo *) malloc(sizeof(TipoNo));
-            no->esq = NULL;
-            no->dir = NULL;
+            *no = (TipoNo *) malloc(sizeof(TipoNo));
+            (*no)->esq = NULL;
+            (*no)->dir = NULL;
 
             if(cont == tamMorse)
-                no->chave = letra;
+                (*no)->chave = letra;
             else
-                no->chave = (char) 1;
+                (*no)->chave = (char) 2;
 
-            return;
+            //return;
         }
-        if(morse[cont] == '-'){
-            cont++;
-            insere(morse, letra, tamMorse, no->dir);
-            return;
-        }
-        if(morse[cont] == '.'){
-            cont++;
-            insere(morse, letra, tamMorse, no->esq);
-            return;
-        }
+
         else{
-            printf("\nJa existente!\n");
-            return;
+            if(morse[cont] == '-'){
+                cont++;
+                insere(morse, letra, tamMorse, &(*no)->dir);
+                //return;
+            }
+            if(morse[cont] == '.'){
+                cont++;
+                insere(morse, letra, tamMorse, &(*no)->esq);
+                //return;
+            }
         }
+//        else{
+//            printf("\nJa existente!\n");
+//            return;
+//        }
     }
 }
 

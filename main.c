@@ -3,12 +3,17 @@
 #include <stdlib.h>
 #include "arvore.c"
 
+// É feita a leitura de um arquivo txt que possui o código morse de todas as letras,
+// onde a sequência é: "<LETRA><COD.MORSE>0" para todas as letras do alfabeto.
+// Um vetor (morseVet) é utilizado para armazenar os "." e "-" de cada letra e é
+// feita a inserção na árvore binária letra por letra.
 //
+// O número 0 em cada sequência serve para identificar o fim da mesma.
 
 int main()
 {
     struct TipoNo root;
-    int tamMorse, cont = 0, i;
+    int tamMorse, cont = 0, i, inicio = TRUE, aux;
     char leitor, letra, morse[5];
     FILE * arq;
 
@@ -18,53 +23,33 @@ int main()
 
     inicializa(&root);
 
-//    letra = (char) fgetc(arq);
-//    //letra = leitor;
-//    printf("%c",letra);
-//
-//    for(i = 0; i < 3; i++) {
-//        morse[i] = (char) fgetc(arq);
-//        printf("%c", morse[i]);
-//    }
-
-//    fscanf(alfabeto, "%c", leitor);
-//    morse[0] = leitor;
-//    printf("%c",morse[0]);
-//
-//    fscanf(alfabeto, "%c", leitor);
-//    morse[1] = leitor;
-//    printf("%c",morse[1]);
-//
-//    fscanf(alfabeto, "%c", leitor);
-//    morse[2] = leitor;
-//    printf("%c",morse[2]);
-//
-//    fscanf(alfabeto, "%c", leitor);
-//    morse[3] = leitor;
-//    printf("%c",morse[3]);
-//
-//    fscanf(alfabeto, "%c", leitor);
-//    morse[4] = leitor;
-//    printf("%c",morse[4]);
-
-//    printf("Tam: %d",strlen(morse));
-
-    while((fscanf(arq,"%c",&leitor)) != EOF) {
-        //printf("CHEGOU1\n");
-        //fscanf(alfabeto, "%c", leitor);
-
-        if (cont == 0)
+    while((fscanf(arq,"%c",&leitor)) != EOF) { // FAZ A LEITURA DO ARQUIVO
+        if (inicio == TRUE) { // SE FOR O INÍCIO DE UMA SEQUÊNCIA, O PRIMEIRO CARACTERE É A LETRA
             letra = leitor;
-        else
+            inicio = FALSE;
+        }
+        else { // SENÃO, É PARTE DO CÓDIGO MORSE (. ou -)
             morse[cont] = leitor;
+            cont++;
+        }
 
-        cont++;
-
-        if (leitor == '0') {
-            tamMorse = cont - 2;
+        if (leitor == '0') { // SE FOR O FIM DE UMA SEQUÊNCIA
+            tamMorse = cont - 1;
+            aux = cont - 1;
             cont = 0;
-            printf("Tamanho norse: %d\n",tamMorse);
-            insere(morse, letra, tamMorse, &root);
+            inicio = TRUE;
+
+            char morseVet[tamMorse]; // ARMAZENA O CÓDIGO MORSE
+            for(i = 0; i <= tamMorse; i++)
+                morseVet[i] = morse[i];
+
+            // TESTES (VALORES DAS VARIAVEIS)
+            printf("Tamanho morse: %d\n",tamMorse);
+            printf("Letra: %c\n",letra);
+            printf("MorseVet: %s\n",morseVet);
+            printf("Morse: %s\n",morse);
+
+            insere(morseVet, letra, tamMorse, &root);
         }
     }
 

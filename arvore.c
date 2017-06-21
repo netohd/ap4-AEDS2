@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include "arvore.h"
 
+void inicializa(struct TipoNo * no){
+    no = (struct TipoNo *) malloc(sizeof(TipoNo));
+    no->chave = (char) 1;
+    no->esq = NULL;
+    no->dir = NULL;
+
+  return;
+}
+
 void insere(char * morse, char letra, int tamMorse, struct TipoNo * no)
 {
     int cont = 0;
@@ -12,10 +21,10 @@ void insere(char * morse, char letra, int tamMorse, struct TipoNo * no)
             no->esq = NULL;
             no->dir = NULL;
 
-            if(cont == 0)
+            if(cont == tamMorse)
                 no->chave = letra;
             else
-                no->chave = -1;
+                no->chave = (char) 1;
 
             return;
         }

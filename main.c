@@ -6,14 +6,13 @@
 // É feita a leitura de um arquivo txt que possui o código morse de todas as letras,
 // onde a sequência é: "<LETRA><COD.MORSE>0" para todas as letras do alfabeto.
 // Um vetor (morseVet) é utilizado para armazenar os "." e "-" de cada letra e é
-// feita a inserção na árvore binária letra por letra.
-//
-// O número 0 em cada sequência serve para identificar o fim da mesma.
+// feita a inserção na árvore binária letra por letra. O número 0 em cada sequência
+// serve para identificar o fim da mesma.
 
 int main()
 {
-    struct TipoNo root;
-    int tamMorse, cont = 0, i, inicio = TRUE, aux;
+    struct TipoNo * root;
+    int tamMorse = 0, cont = 0, i, inicio = TRUE;
     char leitor, letra, morse[5];
     FILE * arq;
 
@@ -35,12 +34,11 @@ int main()
 
         if (leitor == '0') { // SE FOR O FIM DE UMA SEQUÊNCIA
             tamMorse = cont - 1;
-            aux = cont - 1;
             cont = 0;
             inicio = TRUE;
 
             char morseVet[tamMorse]; // ARMAZENA O CÓDIGO MORSE
-            for(i = 0; i <= tamMorse; i++)
+            for(i = 0; i < tamMorse; i++)
                 morseVet[i] = morse[i];
 
             // TESTES (VALORES DAS VARIAVEIS)

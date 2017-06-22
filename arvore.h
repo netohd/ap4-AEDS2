@@ -2,9 +2,6 @@
 #define ARVORE_H_INCLUDED
 #define TRUE 1
 #define FALSE 0
-//#include "arvore.c"
-
-//typedef struct TipoNo* Apontador;
 
 struct TipoNo {
     char chave;

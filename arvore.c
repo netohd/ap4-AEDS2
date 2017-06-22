@@ -3,11 +3,11 @@
 #include "arvore.h"
 
 void inicializa(struct TipoNo ** no){
-//    *no = NULL;
-    (*no) = (struct TipoNo *) malloc(sizeof(TipoNo));
-    (*no)->chave = (char) 2;
-    (*no)->esq = NULL;
-    (*no)->dir = NULL;
+    (*no) = NULL;
+//  (*no) = (struct TipoNo *) malloc(sizeof(TipoNo));
+//  (*no)->chave = (char) 2;
+//  (*no)->esq = NULL;
+//  (*no)->dir = NULL;
 
   return;
 }

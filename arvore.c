@@ -2,8 +2,8 @@
 //ANTONIO ALMEIDA 02632
 #include <stdio.h>
 #include <stdlib.h>
-#include "arvore.h"
 #include <string.h>
+#include "arvore.h"
 
 
 void init_root(Node ** root){

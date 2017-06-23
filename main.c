@@ -1,59 +1,71 @@
+//ADRIANO MARQUES MARTINS 02640
+//ANTONIO ALMEIDA 02632
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "arvore.c"
+#include "arvore.h"
+#include "tabela.h"
+
+
+void limparString(char * c){
+  int tam = strlen(c);
+  int i;
+  for(i=0;i<tam;i++){
+    c[i] = 0;
+  }
+}
 
 // É feita a leitura de um arquivo txt que possui o código morse de todas as letras,
 // onde a sequência é: "<LETRA><COD.MORSE>0" para todas as letras do alfabeto.
 // Um vetor (morseVet) é utilizado para armazenar os "." e "-" de cada letra e é
-// feita a inserção na árvore binária letra por letra. O número 0 em cada sequência
-// serve para identificar o fim da mesma.
+// feita a inserção na árvore binária letra por letra.
+//
+// O número 0 em cada sequência serve para identificar o fim da mesma.
+int main(){
 
-int main()
-{
-    struct TipoNo * root;
-    int tamMorse = 0, cont = 0, i, inicio = TRUE;
-    char leitor, letra, morse[5];
-    FILE * arq;
+    tabelaMorse tabela; //criando um vector de strings par armazenar o código morse
+    Node * raiz;
+    int op, flag=1, i = 0, j;
 
-    arq = fopen("morse.txt","r");
-    if(arq == NULL)
-        printf("Erro, nao foi possivel abrir o arquivo\n");
+    char txtIn[1000]; // definindo um tamanho máximo para o texto de entrada das funções
+    char txtOut[1000]; // definindo um tamanho máximo para o texto de saída das funções
+    char saida[1000][1000]; // definindo um vetor de strings que irá armazenar os resultados de codificação e decodificação
 
-    inicializa(&root);
-
-    while((fscanf(arq,"%c",&leitor)) != EOF) { // FAZ A LEITURA DO ARQUIVO
-        if (inicio == TRUE) { // SE FOR O INÍCIO DE UMA SEQUÊNCIA, O PRIMEIRO CARACTERE É A LETRA
-            letra = leitor;
-            inicio = FALSE;
-        }
-        else { // SENÃO, É PARTE DO CÓDIGO MORSE (. ou -)
-            morse[cont] = leitor;
-            cont++;
-        }
-
-        if (leitor == '0') { // SE FOR O FIM DE UMA SEQUÊNCIA
-            tamMorse = cont - 1;
-            cont = 0;
-            inicio = TRUE;
-
-            char morseVet[tamMorse]; // ARMAZENA O CÓDIGO MORSE
-            for(i = 0; i < tamMorse; i++)
-                morseVet[i] = morse[i];
-
-            // TESTES (VALORES DAS VARIAVEIS)
-            printf("Tamanho morse: %d\n",tamMorse);
-            printf("Letra: %c\n",letra);
-            printf("MorseVet: %s\n",morseVet);
-            printf("Morse: %s\n",morse);
-
-            insere(morseVet, letra, tamMorse, &root);
-        }
+    //inicializando a tabela e a árvore BST
+    criarTabela(tabela);
+    criarArvore(&raiz, tabela);
+    while (flag) {
+      scanf("%d", &op); // ler opção do usuário
+      limparString(txtIn); //limpar lixo da strins
+      limparString(txtOut);
+      switch (op) {
+        case 1:
+            scanf("%[^\n]s", txtIn);// %[^\n]s lê a cadeia de caracteres considerando os espaços
+            codificarTexto(tabela, txtIn, txtOut);
+            strcat(saida[i++], txtOut);//concatena o texto codificado
+            break;
+        case 2:
+            scanf("%[^\n]s", txtIn);
+            traduzirCodigoMorse(txtIn, &raiz, txtOut);
+            strcat(saida[i++], txtOut); // concatena o texto decodificado
+            break;
+        case 3:
+            imprimirTabela(tabela);
+            break;
+        case 0:
+            flag = 0; // finaliza o looop;
+            break;
+        default: printf("opcao invalida, digite novamente: "); // número inválido
+      }
     }
 
-    //imprime(&root);
-
-    fclose(arq);
-
+    //Após a interção do usuário imprime a saída dos resultados obtidos;
+  for(j=1;j<i;j=j+2){
+    if(strlen(saida[j])==0)
+      printf("Sequencia invalida: caracteres invalidos e/ou espacos em excesso");
+    else
+      printf("%s",saida[j]);
+    printf("\n");
+  }
   return 0;
 }
